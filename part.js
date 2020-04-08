@@ -7,39 +7,23 @@ $(document).ready(function() {
     $('.today').prevAll('tbody tr>td').addClass('pastDay');
     $('.today').parent('tr').prevAll('tr').addClass('pastDay');
 
-    $('.today').nextAll('tbody tr>td').addClass('pastDay');
-    $('.today').parent('tr').next().nextAll('tr').addClass('pastDay');
-
     $('.today').addClass('pastDay');
 
-    const current = $('.today').text();
-    $.each($('.today').parent('tr'), function(i, it) {
+    const foundValue = 18;
+    $.each($('.today').parent('tr').next('tr'), function(i, it) {
       var $this = $(this);
       var $items = $this.find("td");
 
       $.each($items, function(index, item) {
         var $this = $(this);
 
-        if ($(this).text() === current) {
+        if ($(this).text() == foundValue) {
           var $thisTd = $(this);
-          console.log('10')
-          $this.removeClass('pastDay')
-          $this.each(function() {
-            $(this).addClass('pastDay')
-          });
-          removeClassNextTwoDays($thisTd);
+          console.log('18')
+          $(this).addClass('pastDay')
         }
       })
     });
-    if ($('.today').is(':last-child')) {
-      markNextElements($('.today').parent('tr').next(), 2);
-    } else if ($('.today').next().is(':last-child')) {
-      markNextElements($('.today').parent('tr').next(), 1);
-    } else if ($('.today').next().next().is(':last-child')) {
-      markNextElements($('.today').parent('tr').next(), 0);
-    } else {
-      markNextElements($('.today').parent('tr').next(), 0);
-    }
 
     var picM = $('select.dp-select-month option:selected').val();
     var picD = $('select.dp-select-year option:selec2ted').val();
@@ -79,6 +63,23 @@ function removeClassNextTwoDays(neededTd) {
     } else {
       $last.closest('td').next('td').removeClass('pastDay');
     }
+  }
+}
+
+function hideAllnextWeeks() {
+  $('.today').nextAll('tbody tr>td').addClass('pastDay');
+  $('.today').parent('tr').next().nextAll('tr').addClass('pastDay');
+}
+
+function hideNextAfterTodayElements() {
+  if ($('.today').is(':last-child')) {
+    markNextElements($('.today').parent('tr').next(), 2);
+  } else if ($('.today').next().is(':last-child')) {
+    markNextElements($('.today').parent('tr').next(), 1);
+  } else if ($('.today').next().next().is(':last-child')) {
+    markNextElements($('.today').parent('tr').next(), 0);
+  } else {
+    markNextElements($('.today').parent('tr').next(), 0);
   }
 }
 
