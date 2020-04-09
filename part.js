@@ -9,20 +9,14 @@ $(document).ready(function() {
 
     $('.today').addClass('pastDay');
 
-    const foundValue = 18;
-    $.each($('.today').parent('tr').next('tr'), function(i, it) {
-      var $this = $(this);
-      var $items = $this.find("td");
-
-      $.each($items, function(index, item) {
-        var $this = $(this);
-
-        if ($(this).text() == foundValue) {
-          var $thisTd = $(this);
-          console.log('18')
-          $(this).addClass('pastDay')
-        }
-      })
+    const foundValue = ['17', '18'];
+    // next week
+    findDateAndDoAction($('.today').parent('tr').next('tr'), foundValue, (td) => {
+      td.addClass('pastDay');
+    });
+    // this week
+    findDateAndDoAction($('.today').parent('tr'), foundValue, (td) => {
+      td.addClass('pastDay');
     });
 
     var picM = $('select.dp-select-month option:selected').val();
@@ -32,6 +26,22 @@ $(document).ready(function() {
     }
   });
 })
+
+function findDateAndDoAction(parent, foundValues, callback) {
+  $.each(parent, function(i, it) {
+    var $this = $(this);
+    var $items = $this.find("td");
+
+    $.each($items, function(index, item) {
+      var $this = $(this);
+
+      if (foundValues.includes($(this).text())) {
+        var $thisTd = $(this);
+        callback($thisTd)
+      }
+    })
+  });
+}
 
 function markNextElements(tr, count) {
   $.each(tr, function(i, it) {
