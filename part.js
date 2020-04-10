@@ -9,7 +9,11 @@ $(document).ready(function() {
 
     $('.today').addClass('pastDay');
 
-    const foundValue = ['17', '18'];
+    const foundValue = ['17', '18', '19'];
+    // after one week
+     findDateAndDoAction($('.today').parent('tr').next('tr').next('tr'), foundValue, (td) => {
+      td.addClass('pastDay');
+    });
     // next week
     findDateAndDoAction($('.today').parent('tr').next('tr'), foundValue, (td) => {
       td.addClass('pastDay');
@@ -18,7 +22,7 @@ $(document).ready(function() {
     findDateAndDoAction($('.today').parent('tr'), foundValue, (td) => {
       td.addClass('pastDay');
     });
-
+    
     var picM = $('select.dp-select-month option:selected').val();
     var picD = $('select.dp-select-year option:selec2ted').val();
     if (picM < Month && (picD <= Year || picD < Year)) {
@@ -33,8 +37,9 @@ function findDateAndDoAction(parent, foundValues, callback) {
     var $items = $this.find("td");
 
     $.each($items, function(index, item) {
+    
       var $this = $(this);
-
+			console.log($(this).text())
       if (foundValues.includes($(this).text())) {
         var $thisTd = $(this);
         callback($thisTd)
